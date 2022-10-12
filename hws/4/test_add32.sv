@@ -8,7 +8,7 @@ logic [(N-1):0] a,b;
 logic c_in;
 logic [(N-1):0] sum;
 wire c_out;
-adder_n #(.N(32)) UUT(.a(a),.b(b),.c_in(c_in),.sum(sum),.c_out(c_out));
+adder_n #(.N(N)) UUT(.a(a),.b(b),.c_in(c_in),.sum(sum),.c_out(c_out));
 // add32 #(.N(N)) UUT(
 //     .a(a),.b(b),.c_in(c_in),.sum(sum),.c_out(c_out)
 // );
