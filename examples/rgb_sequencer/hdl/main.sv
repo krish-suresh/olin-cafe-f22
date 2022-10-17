@@ -20,5 +20,12 @@ edge_detector_moore EDGE_DETECTOR(
   .positive_edge(positive_edge)
 );
 
+always_ff @( debounced ) begin
+  if (rst)
+  rgb[0] <= rgb[2];
+  rgb[1] <= rgb[0];
+  rgb[2] <= rgb[1];
+end
+
 
 endmodule
