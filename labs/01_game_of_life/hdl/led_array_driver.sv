@@ -33,10 +33,13 @@ decoder_3_to_8 COL_DECODER(ena, x, x_decoded);
 always_comb begin
   cols = x_decoded;
   // rows = cells[x*N+N-1:x*N];
-  rows[4] = ~cells[N-x-1];
-  rows[3] = ~cells[N-x-1 + ROWS];
-  rows[2] = ~cells[N-x-1 + ROWS*2];
-  rows[1] = ~cells[N-x-1 + ROWS*3];
-  rows[0] = ~cells[N-x-1 + ROWS*4];
+  rows[7] = ~cells[N-x-1];
+  rows[6] = ~cells[N-x-1 + ROWS];
+  rows[5] = ~cells[N-x-1 + ROWS*2];
+  rows[4] = ~cells[N-x-1 + ROWS*3];
+  rows[3] = ~cells[N-x-1 + ROWS*4];
+  rows[2] = ~cells[N-x-1 + ROWS*5];
+  rows[1] = ~cells[N-x-1 + ROWS*6];
+  rows[0] = ~cells[N-x-1 + ROWS*7];
 end
 endmodule

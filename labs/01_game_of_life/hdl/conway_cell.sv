@@ -35,11 +35,19 @@ adder_n ADDER7(s6, {1'b0, neighbors[7]}, 1'b0, sum, c7);
 
 always_comb begin
     c_out = c1|c2|c3|c4|c5|c6|c7;
-    state_d = ~rst & ((state_q & ((sum == 4'd2) | (sum == 4'd3)) & ~c_out) | (~state_q & (sum == 4'd3) & ~c_out));
+    state_d = ((state_q & ((sum == 4'd2) | (sum == 4'd3)) & ~c_out) | (~state_q & (sum == 4'd3) & ~c_out));
 end
 
 always_ff @(posedge clk) begin
-    state_q <= state_d;
+    if (rst) begin
+        state_q = state_0;
+    end 
+    else begin
+        if (ena) begin
+            state_q <= state_d;
+        end 
+    end
+
 end
 
 
