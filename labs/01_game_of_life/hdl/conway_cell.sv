@@ -36,7 +36,7 @@ always_comb begin
     c_out = c1|c2|c3|c4|c5|c6|c7;
     // The left half is the case when the current state is alive and we want to maintain living only when the neighbor sum is 2 or 3
     // The right half is for when the cell is dead and we only want to make it alive when neighbor sum is 3
-    state_d = ((state_q & ((sum == 4'd2) | (sum == 4'd3)) & ~c_out) | (~state_q & (sum == 4'd3) & ~c_out));
+    state_d = ((state_q & sum[1] & ~c_out) | (~state_q & &sum & ~c_out));
 end
 
 // Flip flop to sync the setting of state_q
