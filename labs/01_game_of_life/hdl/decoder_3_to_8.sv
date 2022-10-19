@@ -5,7 +5,7 @@ module decoder_3_to_8(ena, in, out);
   input wire [2:0] in;
   output logic [7:0] out;
   always_comb begin
-    // One hot decoding of 3bit value
+    // One hot decoding of 3bit values based on truth table
     out[0] = ena & ~in[2] & ~in[1] & ~in[0];
     out[1] = ena & ~in[2] & ~in[1] & in[0];
     out[2] = ena & ~in[2] & in[1] & ~in[0];

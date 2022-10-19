@@ -32,15 +32,15 @@ wire [N-1:0] x_decoded;
 decoder_3_to_8 COL_DECODER(ena, x, x_decoded);
 always_comb begin
   // Set cols to the currently selected column from x
-  cols = ena & x_decoded;
+  cols = x_decoded;
   // Set row to the segement of the cells that are in the selected column
-  rows[7] = ena & ~cells[N-x-1];
-  rows[6] = ena & ~cells[N-x-1 + ROWS];
-  rows[5] = ena & ~cells[N-x-1 + ROWS*2];
-  rows[4] = ena & ~cells[N-x-1 + ROWS*3];
-  rows[3] = ena & ~cells[N-x-1 + ROWS*4];
-  rows[2] = ena & ~cells[N-x-1 + ROWS*5];
-  rows[1] = ena & ~cells[N-x-1 + ROWS*6];
-  rows[0] = ena & ~cells[N-x-1 + ROWS*7];
+  rows[7] = ~cells[N-x-1];
+  rows[6] = ~cells[N-x-1 + ROWS];
+  rows[5] = ~cells[N-x-1 + ROWS*2];
+  rows[4] = ~cells[N-x-1 + ROWS*3];
+  rows[3] = ~cells[N-x-1 + ROWS*4];
+  rows[2] = ~cells[N-x-1 + ROWS*5];
+  rows[1] = ~cells[N-x-1 + ROWS*6];
+  rows[0] = ~cells[N-x-1 + ROWS*7];
 end
 endmodule

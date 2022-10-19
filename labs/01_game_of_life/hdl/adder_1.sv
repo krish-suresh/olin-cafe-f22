@@ -10,8 +10,8 @@ module adder_1(a, b, c_in, sum, c_out);
 input wire a, b, c_in;
 output logic sum, c_out;
 always_comb begin
-  // Adder logic
-  sum = (~a & ~b & c_in) | (~a & b & ~c_in) | (a & ~b & ~c_in) | (a & b & c_in);
+  // Adder logic based on truth table
+  sum = (~a & ~b & c_in) | (~a & b & ~c_in) | (a & ~b & ~c_in) | (a & b & c_in); // max term
   c_out = ((a ^ b) & c_in) | (a & b);
 end
 
