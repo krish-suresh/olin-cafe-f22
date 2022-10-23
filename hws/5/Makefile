@@ -23,6 +23,15 @@ test_pwm: tests/test_pwm.sv hdl/pulse_generator.sv hdl/pwm.sv
 	@echo "This might take a while, we're testing a lot of clock cycles..."
 	${IVERILOG} $^ -o test_pwm.bin && ${VVP} test_pwm.bin ${VVP_POST}
 
+waves_pulse_generator : test_pulse_generator
+	gtkwave pulse_generator.fst --save=wave_cfgs/pulse_generator.gtkw -a wave_cfgs/pulse_generator.gtkw
+
+waves_triangle_generator : test_triangle_generator
+	gtkwave triangle_generator.fst --save=wave_cfgs/triangle_generator.gtkw -a wave_cfgs/triangle_generator.gtkw
+
+waves_pwm : test_pwm
+	gtkwave pwm.fst --save=wave_cfgs/pwm.gtkw -a wave_cfgs/pwm.gtkw
+
 # Call this to clean up all your generated files
 clean:
 	rm -f *.bin *.fst vivado*.log *.jou vivado*.str *.log *.checkpoint *.bit *.html *.xml
