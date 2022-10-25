@@ -1,27 +1,43 @@
 [*]
 [*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Sun Oct 23 21:24:23 2022
+[*] Mon Oct 24 20:48:30 2022
 [*]
 [dumpfile] "/home/ksuresh/olin-cafe-f22/hws/5/triangle_generator.fst"
-[dumpfile_mtime] "Sun Oct 23 21:24:19 2022"
+[dumpfile_mtime] "Mon Oct 24 20:44:08 2022"
 [dumpfile_size] 746
 [savefile] "/home/ksuresh/olin-cafe-f22/hws/5/wave_cfgs/triangle_generator.gtkw"
-[timestart] 2240400
+[timestart] 0
 [size] 1848 1006
-[pos] 25 22
-*-16.432135 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[pos] 51 45
+*-16.432135 2395100 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] test_triangle_generator.
 [sst_width] 279
-[signals_width] 94
+[signals_width] 558
 [sst_expanded] 1
-[sst_vpaned_height] 283
+[sst_vpaned_height] 252
 @28
 test_triangle_generator.UUT.clk
+@200
+-Overall clock to control increment timing
+@28
 test_triangle_generator.UUT.ena
+@200
+-Enable to start and stop counting
 @22
 test_triangle_generator.UUT.out[3:0]
+@200
+-Output value, bouncing between 0 and F.
 @28
 test_triangle_generator.UUT.rst
+@200
+-Reset to 0 out the current output value
+@28
 test_triangle_generator.UUT.state
+@200
+-Current counting state, LOW for increasing and HIGH for decreasing
+@10022
+test_triangle_generator.UUT.out[3:0]
+@200
+-Same as output but in analog triangle shape.
 [pattern_trace] 1
 [pattern_trace] 0

@@ -35,7 +35,7 @@ initial begin
   ticks = CLK_TICKS;
   $display("Enable the PWM %d ticks...", ticks);
   
-  repeat (1) @(negedge clk);
+  repeat (1) @(posedge clk);
   rst = 0;
 
   for(int i = 0; i < (2<<(PWM_WIDTH - 1)); i = i + 1) begin

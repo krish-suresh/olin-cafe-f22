@@ -8,10 +8,12 @@ output logic out;
 
 // Copy any other modules you use into the HDL folder and update the Makefile accordingly.
 logic [N-1:0] sum;
-adder_n #(.N(N)) ADDER(.a(a), .b(~b), .c_in(1), .sum(sum));
-always_comb out = sum[N-1];
-always @(sum) begin
-    #1 $display("a:%b b:%b, %b %b ", a, ~b, sum, out);
+logic c_out, n,v;
+adder_n #(.N(N)) ADDER(.a(a), .b(~b), .c_in(1), .sum(sum),.c_out(c_out));
+always_comb begin
+    n = sum[N-1];
+    v = (sum[N-1] ^ a[N-1]) & (a[N-1] ^ b[N-1]);
+    out = n ^ v;
 end
 endmodule
 

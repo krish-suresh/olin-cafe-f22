@@ -65,7 +65,7 @@ initial begin
 
   
   $display("Random testing.");
-  for (int i = 0; i < 100; i = i + 1) begin : random_testing
+  for (int i = 0; i < 100000; i = i + 1) begin : random_testing
     a = $random();
     b = $random();
     #1 print_io();

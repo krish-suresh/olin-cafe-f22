@@ -11,6 +11,7 @@ output logic out;
 
 logic [N-1:0] counter;
 logic counter_comparator;
+initial counter = 0;
 always_ff @( posedge clk ) begin
   if (rst) begin
     counter <= 0;
