@@ -25,7 +25,7 @@ logic [N-1:0] counter;
 logic [N-1:0] ticks;
 initial counter = 0;
 initial out = 0;
-always_comb ticks = out ? duty : 2**N-1-duty;
+always_comb ticks = out ? duty : 2**N-1-duty; // set ticks to length of duty when out is high or to the remainder of the duty
 always_ff @( posedge step ) begin
   if (rst) begin
     counter <= 0;
@@ -33,24 +33,14 @@ always_ff @( posedge step ) begin
     out <=0;
   end
   else if(ena) begin 
+    // When counter is at ticks and not 0 or 2^N-1, reset count and flip out
       if (counter == ticks & duty != 0 & duty != 2**N-1) begin 
         out <= ~out;
         counter <= 0;
       end  
       else begin
-        // out <= 0;
         counter <= counter+1;
       end 
   end
 end
-// initial out = 0;
-// always_comb ticks = out ? duty : 2**N-1-duty;
-// pulse_generator #(.N(N)) GEN(.clk(step), .rst(rst), .ena(ena), .ticks(ticks), .out(ff));
-// always_ff @( posedge clk) begin
-//   if (rst) begin
-//     out <= 0;
-//   end else begin
-//     out <= ~out & ena;
-//   end
-// end
 endmodule
