@@ -11,9 +11,9 @@ logic [N-1:0] sum;
 logic c_out, n,v;
 adder_n #(.N(N)) ADDER(.a(a), .b(~b), .c_in(1), .sum(sum),.c_out(c_out));
 always_comb begin
-    n = sum[N-1];
-    v = (sum[N-1] ^ a[N-1]) & (a[N-1] ^ b[N-1]);
-    out = n ^ v;
+    n = sum[N-1]; // Compute if sum was negative
+    v = (sum[N-1] ^ a[N-1]) & (a[N-1] ^ b[N-1]); // Compute if overflow occured
+    out = n ^ v; 
 end
 endmodule
 
