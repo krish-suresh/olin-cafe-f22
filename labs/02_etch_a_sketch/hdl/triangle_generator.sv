@@ -9,5 +9,21 @@ output logic [N-1:0] out;
 typedef enum logic {COUNTING_UP, COUNTING_DOWN} state_t;
 state_t state;
 
+always_ff @( posedge clk, posedge rst ) begin
+    if (rst) begin
+        out = 0;
+        state = COUNTING_UP;
+    end else if (ena) begin
+        if (out == 0) begin
+            state = COUNTING_UP;
+        end if (out == {N{1'b1}}) begin
+            state = COUNTING_DOWN;
+        end if (state == COUNTING_UP) begin
+            out += 1;
+        end else begin
+            out -= 1;
+        end
+    end
+end
 
 endmodule

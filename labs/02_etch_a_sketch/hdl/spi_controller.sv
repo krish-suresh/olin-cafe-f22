@@ -78,9 +78,9 @@ always_ff @(posedge clk) begin : spi_controller_fsm
       S_TXING : begin
         sclk <= ~sclk;
         // positive edge logic
-        if(~sclk) begin
-        end else begin // negative edge logic
+        if(~sclk) begin // IMPLEMENT HERE
           
+        end else begin // negative edge logic
           if(bit_counter != 0) begin
             bit_counter <= bit_counter - 1;
           end else begin
@@ -108,6 +108,7 @@ always_ff @(posedge clk) begin : spi_controller_fsm
           default : bit_counter <= 0;
         endcase
       end
+      
       default : state <= S_ERROR;
     endcase
   end
