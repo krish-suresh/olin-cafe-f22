@@ -13,6 +13,8 @@ input wire [N-1:0] duty; // The "duty cycle" input.
 output logic out;
 
 logic [N-1:0] counter;
+logic rst_count;
+logic duty_out;
 
 // Create combinational (always_comb) and sequential (always_ff @(posedge clk)) 
 // logic that drives the out signal.
@@ -23,25 +25,25 @@ logic [N-1:0] counter;
 // You can use behavioural combinational logic, but try to keep your sequential
 //   and combinational blocks as separate as possible.
 
-logic [N-1:0] ticks;
-initial counter = 0;
-initial out = 0;
-always_comb ticks = out ? duty : 2**N-1-duty; // set ticks to length of duty when out is high or to the remainder of the duty
-always_ff @( posedge step ) begin
-  if (rst) begin
+always_comb begin
+ rst_count = counter == ((2**N) -1); 
+ duty_out = counter == (duty-1);
+end
+always_ff @(posedge clk) begin
+  if(rst | rst_count) begin
     counter <= 0;
-    ticks <= duty;
-    out <=0;
+  end else if(ena) begin
+    counter <= counter + 1;
   end
-  else if(ena) begin 
-    // When counter is at ticks and not 0 or 2^N-1, reset count and flip out
-      if (counter == ticks & duty != 0 & duty != 2**N-1) begin 
-        out <= ~out;
-        counter <= 0;
-      end  
-      else begin
-        counter <= counter+1;
-      end 
+end
+
+always_ff @(posedge clk) begin
+  if (rst) begin
+    out <= 1;
+  end else if ((ena & duty_out) | duty == 0) begin
+    out <= 0;
+  end else if(ena & rst_count) begin
+    out <= 1;
   end
 end
 

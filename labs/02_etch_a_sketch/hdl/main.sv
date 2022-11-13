@@ -149,7 +149,7 @@ ili9341_display_controller ILI9341(
   .vram_rd_addr(vram_rd_addr),
   .vram_rd_data(vram_rd_data),
   // !!! NOTE - change enable_test_pattern to zero once you start implementing the video ram !!!
-  .enable_test_pattern(1'b1) 
+  .enable_test_pattern(1'b0) 
 );
 
 /* ------------------------------------------------------------------------- */
@@ -182,5 +182,40 @@ block_ram #(.W(VRAM_W), .L(VRAM_L)) VRAM(
   .wr_ena(vram_wr_ena), .wr_addr(vram_wr_addr), .wr_data(vram_wr_data)
 );
 // Add your vram control FSM here:
+enum logic [1:0] {S_CLEAR, S_DRAW, S_LOAD_ROM} state;
+logic [11:0] x;
+logic [11:0] y;
+always_ff @( posedge clk ) begin
+  if(rst) begin
+    state <= S_CLEAR;
+    x <= 0;
+    y <= 0;
+  end else begin
+    case (state)
+      S_CLEAR: begin
+        vram_wr_addr <= y*DISPLAY_WIDTH + {8'd0, x};
+        vram_wr_data <= BLACK;
+        vram_wr_ena <= 1;
+        y <= y + 1;
+        if (y > DISPLAY_HEIGHT) begin
+          x <= x + 1;
+          y <= 0;
+        end
+        if (x > DISPLAY_WIDTH) begin 
+          state <= S_DRAW;
+          vram_wr_ena <= 0;
+        end
+      end
+      S_DRAW: begin
+        vram_wr_ena <= touch0.valid;
+        vram_wr_addr <= touch0.y*DISPLAY_WIDTH + {8'd0, touch0.x};
+        vram_wr_data <= CYAN;
+      end
+      default: begin
+        state <= S_DRAW;
+      end
+    endcase
+  end
+end
 
 endmodule

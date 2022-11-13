@@ -74,6 +74,20 @@ always_ff @(posedge clk) begin : spi_controller_fsm
   end else begin
     case(state)
       S_IDLE : begin
+        sclk <= 0;
+        i_ready <= 1;
+        if (i_valid) begin 
+          state <= S_TXING;
+          rx_data <= 0;
+          i_ready <= 0;
+          o_valid <= 0;
+          tx_data <= i_data;
+          case (spi_mode)
+          WRITE_8  : begin bit_counter <= 5'd7; end
+          WRITE_16  : begin bit_counter <= 5'd15; end
+          default : begin bit_counter <= 5'd7; end
+          endcase
+        end
       end
       S_TXING : begin
         sclk <= ~sclk;
@@ -108,7 +122,15 @@ always_ff @(posedge clk) begin : spi_controller_fsm
           default : bit_counter <= 0;
         endcase
       end
-      
+      S_RXING : begin
+        sclk <= ~sclk;
+        if(~sclk) begin // positive edge logic
+          o_data <= 0;
+          o_valid <= 1;
+          state <= S_IDLE;
+          i_ready <= 1;
+        end
+      end
       default : state <= S_ERROR;
     endcase
   end
