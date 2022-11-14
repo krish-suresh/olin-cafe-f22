@@ -75,13 +75,14 @@ always_ff @(posedge clk) begin : spi_controller_fsm
     case(state)
       S_IDLE : begin
         sclk <= 0;
-        i_ready <= 1;
-        if (i_valid) begin 
+        i_ready <= 1; // Indicate we are ready to recieve input
+        if (i_valid) begin // Once input signal is valid start TX
           state <= S_TXING;
           rx_data <= 0;
           i_ready <= 0;
           o_valid <= 0;
-          tx_data <= i_data;
+          tx_data <= i_data; // load input data into tx buffer
+          // Set number of bits to send based on spi mode
           case (spi_mode)
           WRITE_8  : begin bit_counter <= 5'd7; end
           WRITE_16  : begin bit_counter <= 5'd15; end
@@ -92,8 +93,7 @@ always_ff @(posedge clk) begin : spi_controller_fsm
       S_TXING : begin
         sclk <= ~sclk;
         // positive edge logic
-        if(~sclk) begin // IMPLEMENT HERE
-          
+        if(~sclk) begin 
         end else begin // negative edge logic
           if(bit_counter != 0) begin
             bit_counter <= bit_counter - 1;
@@ -123,12 +123,14 @@ always_ff @(posedge clk) begin : spi_controller_fsm
         endcase
       end
       S_RXING : begin
-        sclk <= ~sclk;
-        if(~sclk) begin // positive edge logic
+        sclk <= ~sclk; // Advance the state clock
+        if(~sclk) begin // With WRITE_8 and WRITE_16 not RX time is needed
+          // Set output valid
           o_data <= 0;
           o_valid <= 1;
-          state <= S_IDLE;
           i_ready <= 1;
+          // Switch to IDLE state
+          state <= S_IDLE; 
         end
       end
       default : state <= S_ERROR;

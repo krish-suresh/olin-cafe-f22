@@ -182,37 +182,43 @@ block_ram #(.W(VRAM_W), .L(VRAM_L)) VRAM(
   .wr_ena(vram_wr_ena), .wr_addr(vram_wr_addr), .wr_data(vram_wr_data)
 );
 // Add your vram control FSM here:
-enum logic [1:0] {S_CLEAR, S_DRAW, S_LOAD_ROM} state;
+enum logic {S_CLEAR, S_DRAW} state;
+
+// variables to store current pixel we are resetting
 logic [11:0] x;
 logic [11:0] y;
+
+// Drawing FSM
 always_ff @( posedge clk ) begin
   if(rst) begin
+    // on reset clear the display
     state <= S_CLEAR;
+    // start reset pixel coord at 0,0
     x <= 0;
     y <= 0;
   end else begin
     case (state)
       S_CLEAR: begin
+        // calculate address for current x,y point
         vram_wr_addr <= y*DISPLAY_WIDTH + {8'd0, x};
-        vram_wr_data <= BLACK;
-        vram_wr_ena <= 1;
-        y <= y + 1;
+        vram_wr_data <= BLACK; // set pixel to BLACK (bg color)
+        vram_wr_ena <= 1; // ensure that writing is enabled
+        y <= y + 1; // advance pixel
         if (y > DISPLAY_HEIGHT) begin
+          // wrap to next column when we hit the edge
           x <= x + 1;
           y <= 0;
         end
         if (x > DISPLAY_WIDTH) begin 
+          // after full display is cleared switch back to drawing state
           state <= S_DRAW;
           vram_wr_ena <= 0;
         end
       end
       S_DRAW: begin
-        vram_wr_ena <= touch0.valid;
-        vram_wr_addr <= touch0.y*DISPLAY_WIDTH + {8'd0, touch0.x};
-        vram_wr_data <= CYAN;
-      end
-      default: begin
-        state <= S_DRAW;
+        vram_wr_ena <= touch0.valid; // only draw if touch input is valid
+        vram_wr_addr <= touch0.y*DISPLAY_WIDTH + {8'd0, touch0.x}; // compute address based on pixel x,y
+        vram_wr_data <= CYAN; // set pixel address data to CYAN to be displayed by the ili controller
       end
     endcase
   end

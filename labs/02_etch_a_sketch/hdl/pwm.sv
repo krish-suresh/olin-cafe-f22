@@ -25,10 +25,7 @@ logic duty_out;
 // You can use behavioural combinational logic, but try to keep your sequential
 //   and combinational blocks as separate as possible.
 
-always_comb begin
- rst_count = counter == ((2**N) -1); 
- duty_out = counter == (duty-1);
-end
+
 always_ff @(posedge clk) begin
   if(rst | rst_count) begin
     counter <= 0;
@@ -40,9 +37,9 @@ end
 always_ff @(posedge clk) begin
   if (rst) begin
     out <= 1;
-  end else if ((ena & duty_out) | duty == 0) begin
+  end else if ((ena & (counter == (duty-1))) | duty == 0) begin
     out <= 0;
-  end else if(ena & rst_count) begin
+  end else if(ena & (counter == ((2**N) -1))) begin
     out <= 1;
   end
 end
