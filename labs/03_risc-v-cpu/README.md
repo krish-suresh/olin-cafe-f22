@@ -40,29 +40,29 @@ Your submission should include any extra tests you've run, as well as sketches/b
 ## Instruction Checklist
 Optional instructions are in italics.
 ### R-types
-- [ ] add
-- [ ] sub
-- [ ] xor
-- [ ] or
-- [ ] and
-- [ ] sll
-- [ ] srl
-- [ ] sra
-- [ ] slt
-- [ ] sltu
+- [X] add
+- [X] sub
+- [X] xor
+- [X] or
+- [X] and
+- [X] sll
+- [X] srl
+- [X] sra
+- [X] slt
+- [X] sltu
 ### I-types
-- [ ] addi
-- [ ] xori
-- [ ] ori
-- [ ] andi
-- [ ] slli
-- [ ] srli
-- [ ] srai
-- [ ] slti
-- [ ] sltiu
+- [X] addi
+- [X] xori
+- [X] ori
+- [X] andi
+- [X] slli
+- [X] srli
+- [X] srai
+- [X] slti
+- [X] sltiu
 ### Memory-Types (Loads/Stores)
-- [ ] lw
-- [ ] sw
+- [X] lw
+- [X] sw
 - [ ] *lb*
 - [ ] *lh*
 - [ ] *lbu*
@@ -71,15 +71,15 @@ Optional instructions are in italics.
 - [ ] *sh*
 
 ### B-types (Branches)
-- [ ] beq
-- [ ] bne
+- [X] beq
+- [X] bne
 - [ ] *blt*
 - [ ] *bge*
 - [ ] *bltu*
 - [ ] *bgeu*
 ### J-types (Jumps)
-- [ ] jal
-- [ ] jalr (technically an i-type)
+- [X] jal
+- [X] jalr (technically an i-type)
 ### U-types (Upper immediates)
 - [ ] *lui*
 - [ ] *auipc*
