@@ -1,4 +1,52 @@
 # Multicycle RISC-V CPU
+Cole Marco, Krishna Suresh, Milo Song-Weiss
+## Instruction Checklist
+Optional instructions are in italics.
+### R-types
+- [X] add
+- [X] sub
+- [X] xor
+- [X] or
+- [X] and
+- [X] sll
+- [X] srl
+- [X] sra
+- [X] slt
+- [X] sltu
+### I-types
+- [X] addi
+- [X] xori
+- [X] ori
+- [X] andi
+- [X] slli
+- [X] srli
+- [X] srai
+- [X] slti
+- [X] sltiu
+### Memory-Types (Loads/Stores)
+- [X] lw
+- [X] sw
+- [ ] *lb*
+- [ ] *lh*
+- [ ] *lbu*
+- [ ] *lhu*
+- [ ] *sb*
+- [ ] *sh*
+
+### B-types (Branches)
+- [X] beq
+- [X] bne
+- [ ] *blt*
+- [ ] *bge*
+- [ ] *bltu*
+- [ ] *bgeu*
+### J-types (Jumps)
+- [X] jal
+- [X] jalr (technically an i-type)
+### U-types (Upper immediates)
+- [ ] *lui*
+- [ ] *auipc*
+
 This lab is all about designing a working rv32i (integer subset of the RISC-V spec) system. The overall system (in `rv32i_system.sv`) consists of a computation core (datapath, alu, register file, etc.) and a Memory Management Unit (MMU). The MMU will be critical when we start connecting our CPU to external peripherals, but for now you can treat it as a RAM with one read/write port.
 
 Your task is to implement `rv32i_multicycle_core.sv`. A computational core takes in our typical `clk` and `rst` signals, and can interface with memory via the `mem_addr`, `mem_wr_data`, `mem_wr_ena`, and `mem_rd_data` signals. By convention the core can only read xor write to memory in a given cycle - augmenting it to do reads and writes simultaneously is beyond the scope for this lab but could be useful for a final project around optimizing memory accesses. You should also check `rv32i_defines.sv` - it contains some useful constants from the ISA.
@@ -45,52 +93,5 @@ The MVP for this project is a core that works in simulation, but I recommend pus
 You can use `make analyze_rv32i_system` to generate a variety of reports showing timing and area results of your design - you should look through those and identify what your critical path is (and what your fastest clock speed is) as well as see what percentage of the FPGA resources you are using. 
 
 Your submission should include any extra tests you've run, as well as sketches/block diagrams showing the main multicycle FSM as well as the datapaths for a few R, I, memory, and branch instructions. To make grading easier, mark off the instructions you have implemented on the list below before submitting.
-
-## Instruction Checklist
-Optional instructions are in italics.
-### R-types
-- [ ] add
-- [ ] sub
-- [ ] xor
-- [ ] or
-- [ ] and
-- [ ] sll
-- [ ] srl
-- [ ] sra
-- [ ] slt
-- [ ] sltu
-### I-types
-- [ ] addi
-- [ ] xori
-- [ ] ori
-- [ ] andi
-- [ ] slli
-- [ ] srli
-- [ ] srai
-- [ ] slti
-- [ ] sltiu
-### Memory-Types (Loads/Stores)
-- [ ] lw
-- [ ] sw
-- [ ] *lb*
-- [ ] *lh*
-- [ ] *lbu*
-- [ ] *lhu*
-- [ ] *sb*
-- [ ] *sh*
-
-### B-types (Branches)
-- [ ] beq
-- [ ] bne
-- [ ] *blt*
-- [ ] *bge*
-- [ ] *bltu*
-- [ ] *bgeu*
-### J-types (Jumps)
-- [ ] jal
-- [ ] jalr (technically an i-type)
-### U-types (Upper immediates)
-- [ ] *lui*
-- [ ] *auipc*
 
 Note, the above list doesn't include some common psuedo-instructions like `ret` and `j` and `not` since those can be experssed in terms of what we've already listed here. See `assembler.py` for more details.
